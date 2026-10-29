@@ -236,6 +236,8 @@ section.block { padding-block: 72px; border-top: 1px solid var(--line); }
 .case .back:hover { color: var(--fg); }
 .case-head { display: grid; gap: 14px; margin-top: 24px; max-width: 760px; }
 .case-head h1 { font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4rem); font-weight: 800; letter-spacing: -0.03em; }
+.case-cta { justify-self: start; }
+.steam-widget { width: 100%; max-width: 646px; height: 190px; border: 0; margin-top: 16px; display: block; }
 .case-head .sum { font-size: 1.15rem; color: var(--muted); max-width: 56ch; }
 .cover { margin-top: 32px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16 / 9; background: var(--surface); }
 .cover img, .cover video { width: 100%; height: 100%; object-fit: cover; }
@@ -577,6 +579,7 @@ main.entering { animation: view-in .5s cubic-bezier(.2, .7, .2, 1) both; }
       <h1>Blue Oath</h1>
       <span class="award"><svg aria-hidden="true"><use href="#s-trophy"/></svg>Best Student Game · Jury Prize · ISART Digital Montréal</span>
       <p class="sum">Technical Designer responsible for the 3Cs, core gameplay systems, tools and project coordination.</p>
+      <a class="btn primary case-cta" href="https://store.steampowered.com/app/4660640/Blue_Oath/" target="_blank" rel="noopener">View Blue Oath on Steam <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
     </div>
     <div class="cover"><video data-src="media/bo-trailer.mp4" poster="media/bo-trailer-poster.jpg" muted loop playsinline controls aria-label="Blue Oath gameplay trailer"></video></div>
     <dl class="specs">
@@ -590,6 +593,7 @@ main.entering { animation: view-in .5s cubic-bezier(.2, .7, .2, 1) both; }
         <span class="label">The game</span>
         <p style="margin-top:10px">Blue Oath is a top-down action-adventure game. You play a warrior swordfish setting out to free a giant cursed moray eel that wanders the ruins of its temple.</p>
         <p>Powerful dash attacks impale enemies and objects onto your beak. Stack them, then throw them back as weapons or tools.</p>
+        <iframe class="steam-widget" src="https://store.steampowered.com/widget/4660640/" title="Steam store widget" loading="lazy"></iframe>
       </div>
       <div class="contrib">
         <div><h4>Technical design</h4><ul><li>Designed and implemented the 3Cs and core gameplay systems</li><li>Set and maintained technical guidelines and documentation</li><li>Developed procedural animation systems</li><li>Built data-driven systems for fast iteration and tuning</li></ul></div>
