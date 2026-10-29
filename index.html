@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Joss Querné · Designer &amp; Programmer">
+<meta property="og:description" content="Gameplay systems, tools and project coordination. Case studies, Fab plugins and articles.">
+<meta property="og:image" content="media/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="media/hero-poster.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Joss Querné","jobTitle":"Designer & Programmer","address":{"@type":"PostalAddress","addressLocality":"Montreal"},"sameAs":["https://www.linkedin.com/in/josselin-querne","https://medium.com/@josselin.querne"]}</script>
+<style>html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Joss Querné · Designer &amp; Programmer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Joss Querné, Designer &amp; Programmer in Montreal. I design and build gameplay systems and tools, and coordinate projects. Case studies, Fab plugins and articles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: neutral charcoal ground matching the resume sidebar, a left-aligned hero beside a framed engine viewport,
+   then work as spec-sheet rows; tags are drawn as Blueprint pins. Case studies are hash views.
+   Single dark look by choice, so the site and resume read as one identity. */
+:root {
+  --bg: #1b1b1b;
+  --surface: #242424;
+  --line: #363636;
+  --fg: #f2f2f2;
+  --muted: #a6a6a6;
+  --accent: #f0a23b;          /* amber, the one color */
+  --accent-ink: #1a1206;
+  --pin-object: var(--accent);
+  --pin-exec: #f2f2f2;
+  --pin-int: #8c8c8c;
+  --pin-struct: #6a6a6a;
+  --pin-string: var(--accent);
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --radius: 10px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 1rem/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; }
+img, video { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap {
+  max-width: 1120px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; }
+h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+.mono { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; }
+.label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.muted { color: var(--muted); }
+
+/* Header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { font-family: var(--display); font-weight: 700; text-decoration: none; font-size: 1.05rem; white-space: nowrap; }
+.brand span { color: var(--muted); font-weight: 500; }
+.nav { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.nav a { text-decoration: none; font-size: 0.9rem; padding: 6px 10px; border-radius: 6px; color: var(--muted); }
+.nav a:hover { color: var(--fg); background: var(--surface); }
+.nav a.cta { color: var(--accent-ink); background: var(--accent); font-weight: 600; }
+@media (max-width: 720px) { .nav .opt { display: none; } .brand span { display: none; } }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-weight: 600; font-size: 0.95rem; padding: 10px 16px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--surface); transition: border-color .15s, transform .15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { transform: translateY(-1px); }
+.btn svg { width: 16px; height: 16px; }
+
+/* Hero: full-bleed engine footage behind the name */
+.hero { position: relative; overflow: hidden; display: grid; align-items: end; min-height: clamp(520px, 82vh, 860px); background: #000; }
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 38%, transparent 70%),
+    linear-gradient(to right, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 60%);
+}
+.hero .wrap { position: relative; z-index: 1; width: 100%; padding-block: 120px 72px; }
+.hero h1 { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5); }
+.hero h1 { font-size: clamp(2.6rem, 1.6rem + 4.4vw, 4.6rem); font-weight: 800; letter-spacing: -0.035em; }
+.hero h1 .role { display: block; color: var(--accent); font-weight: 700; font-size: 0.5em; letter-spacing: -0.01em; margin-top: 10px; }
+.hero .lede { margin-top: 20px; font-size: 1.12rem; max-width: 46ch; color: var(--muted); }
+.hero .lede strong { color: var(--fg); font-weight: 600; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.hero .loc { margin-top: 22px; }
+.hero .lede { color: #d0d0d0; }
+@media (max-width: 860px) { .hero { min-height: 560px; } .hero .wrap { padding-block: 96px 48px; } }
+
+/* Sections */
+section.block { padding-block: 72px; border-top: 1px solid var(--line); }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 36px; }
+.sec-head p { max-width: 52ch; }
+
+/* Blueprint pins (tags) */
+.pins { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.pin {
+  --c: var(--pin-exec);
+  display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 0.74rem;
+  padding: 3px 9px 3px 7px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); white-space: nowrap;
+}
+.pin::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 35%, transparent); }
+.pin.ue { --c: var(--pin-object); } .pin.bp { --c: var(--pin-exec); } .pin.cpp { --c: var(--pin-int); }
+.pin.ctx { --c: var(--pin-struct); } .pin.ux { --c: var(--pin-string); }
+
+/* Project rows */
+.projects { display: grid; gap: 20px; }
+.project {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 32px; align-items: center;
+  padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface);
+  text-decoration: none; transition: border-color .2s;
+}
+.project:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); }
+.project .thumb { border-radius: 8px; overflow: hidden; aspect-ratio: 1040 / 626; background: var(--bg); }
+.project .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.project:hover .thumb img { transform: scale(1.03); }
+.project .thumb { position: relative; }
+.project .thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s ease; }
+.project .thumb video.on { opacity: 1; }
+.project .body { display: grid; gap: 12px; padding-right: 12px; min-width: 0; }
+.project .genre { color: var(--accent); }
+.genre-l { display: inline-flex; align-items: center; gap: 7px; color: var(--accent); }
+.g-ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kind { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 6px;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--fg); border: 1.5px solid var(--fg);
+}
+.badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.badge.pro { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.award {
+  display: inline-flex; align-items: center; gap: 8px; justify-self: start; padding: 6px 12px 6px 8px; border-radius: 6px;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1.5px solid var(--accent);
+}
+.award svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.project .spec { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); }
+.project .more { font-weight: 600; display: inline-flex; gap: 6px; align-items: center; margin-top: 4px; }
+.project:hover .more .arr { transform: translateX(3px); }
+.more .arr { transition: transform .2s; }
+.madeat { display: flex; align-items: center; gap: 10px; }
+.madeat img { height: 26px; width: auto; }
+.madeat img[src*="badrez"] { height: 34px; }
+@media (max-width: 760px) { .project { grid-template-columns: 1fr; gap: 18px; } .project .body { padding: 0 4px 6px; } }
+
+/* Plugins */
+.plugins { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.plugin { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); display: flex; flex-direction: column; }
+.plugin img { aspect-ratio: 36 / 22; object-fit: cover; width: 100%; height: auto; border-bottom: 1px solid var(--line); }
+.plugin .body { padding: 20px; display: grid; gap: 12px; flex: 1; align-content: start; }
+.plugin .btn { justify-self: start; margin-top: 4px; }
+@media (max-width: 680px) { .plugins { grid-template-columns: 1fr; } }
+
+/* Writing */
+.articles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.articles a {
+  display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+  padding: 14px 2px; border-bottom: 1px solid var(--line); text-decoration: none; font-weight: 500;
+}
+.articles a:hover { color: var(--accent); }
+.articles .arr { font-family: var(--mono); color: var(--muted); flex: none; }
+@media (max-width: 680px) { .articles { grid-template-columns: 1fr; } }
+
+/* About */
+.about { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; align-items: start; }
+.about .portrait { width: 200px; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+.about .bio { display: grid; gap: 10px; font-size: 0.95rem; line-height: 1.55; max-width: 68ch; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-top: 36px; }
+.stat { background: var(--surface); padding: 18px 18px 16px; display: grid; gap: 4px; }
+.stat b { font-family: var(--display); font-size: 2.1rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 0.88rem; line-height: 1.35; }
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 32px; }
+.skills .pins { margin-top: 10px; }
+.spec-tiles, .spec-chips { list-style: none; margin: 12px 0 0; padding: 0; }
+.spec-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.spec-tiles li {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-width: 0;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-weight: 600;
+}
+.spec-tiles svg {
+  flex: none; width: 36px; height: 36px; padding: 8px; border-radius: 8px;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.spec-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.spec-chips li {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 10px;
+  border: 1px solid var(--line); border-radius: 999px; font-size: 0.92rem; color: var(--fg);
+}
+.spec-chips svg { width: 18px; height: 18px; color: var(--muted); }
+.spec-tiles svg, .spec-chips svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 420px) { .spec-tiles { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .about { grid-template-columns: 1fr; gap: 24px; } .about .portrait { width: 140px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .skills { grid-template-columns: 1fr; }
+}
+
+/* Contact / footer */
+.contact { padding-block: 80px 48px; border-top: 1px solid var(--line); }
+.contact h2 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.2rem); max-width: 18ch; }
+.contact .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); }
+
+/* Case study views */
+.case { padding-block: 40px 24px; }
+.case .back { display: inline-flex; gap: 6px; text-decoration: none; color: var(--muted); font-size: 0.9rem; }
+.case .back:hover { color: var(--fg); }
+.case-head { display: grid; gap: 14px; margin-top: 24px; max-width: 760px; }
+.case-head h1 { font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4rem); font-weight: 800; letter-spacing: -0.03em; }
+.case-head .sum { font-size: 1.15rem; color: var(--muted); max-width: 56ch; }
+.cover { margin-top: 32px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16 / 9; background: var(--surface); }
+.cover img, .cover video { width: 100%; height: 100%; object-fit: cover; }
+.specs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: var(--radius); margin-top: 24px; background: var(--surface); }
+.specs > div { padding: 16px 18px; display: grid; gap: 6px; align-content: start; border-right: 1px solid var(--line); min-width: 0; }
+.specs > div:last-child { border-right: 0; }
+.specs dd { margin: 0; font-weight: 500; }
+@media (max-width: 760px) {
+  .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .specs > div:nth-child(2n) { border-right: 0; }
+  .specs > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}
+.case-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; margin-top: 56px; }
+.case-intro p { font-size: 1.06rem; max-width: 60ch; }
+.case-intro p + p { margin-top: 12px; }
+.contrib { display: grid; gap: 20px; }
+.contrib h4 { margin: 0 0 6px; font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 500; }
+.contrib ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.contrib li::marker { color: var(--muted); }
+@media (max-width: 860px) { .case-intro { grid-template-columns: 1fr; gap: 32px; } }
+
+.group { margin-top: 72px; }
+.group > .label { display: block; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.feature { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); gap: 36px; align-items: center; padding-block: 28px; }
+.feature + .feature { border-top: 1px dashed var(--line); }
+.feature .txt { display: grid; gap: 12px; }
+.feature .txt ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.feature blockquote { margin: 0; padding-left: 14px; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+.media { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.media video, .media img { width: 100%; height: auto; }
+.media.white { background: #fff; }
+.stack { display: grid; gap: 12px; }
+.feature.wide { grid-template-columns: 1fr; gap: 24px; }
+.feature.wide .txt { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); gap: 12px 36px; align-items: start; }
+.gallery { display: grid; gap: 12px; }
+.pair { display: flex; gap: 12px; align-items: flex-start; }
+.pair > .media { flex: var(--r, 1) 1 0; }
+@media (max-width: 860px) { .feature.wide .txt { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .pair { flex-direction: column; } .pair > .media { flex: none; } }
+
+@media (max-width: 860px) { .feature { grid-template-columns: 1fr; gap: 18px; } }
+.nda { margin-top: 56px; padding: 22px 24px; border: 1px dashed var(--line); border-radius: var(--radius); display: flex; gap: 14px; align-items: center; }
+.nda .pin { --c: var(--accent); }
+
+.next { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line); }
+.next a { text-decoration: none; display: grid; gap: 4px; }
+.next a b { font-family: var(--display); font-size: 1.4rem; }
+.next a:hover b { color: var(--accent); }
+.next a.r { text-align: right; margin-left: auto; }
+
+/* Lightbox for case study images */
+.case .media img, .case .cover img { cursor: zoom-in; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 40; display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, #000 88%, transparent); cursor: zoom-out;
+  opacity: 0; transition: opacity .2s ease;
+}
+.lightbox.open { opacity: 1; }
+.lightbox img { max-width: min(100%, 1800px); max-height: 100%; width: auto; height: auto; border-radius: 6px; box-shadow: 0 20px 60px rgba(0,0,0,.5); background: #fff; }
+.lightbox img.dark { background: transparent; }
+.lightbox button {
+  position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px));
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  font-size: 1.3rem; line-height: 1; cursor: pointer;
+}
+
+/* Motion: hero intro on load, one-time reveal on first scroll, and a page transition between views.
+   Hidden states only apply once the script has marked the page (.anim), so content is never stuck invisible. */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes view-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.anim .hero .wrap > div > * { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
+.anim .hero h1 { animation-delay: .05s; }
+.anim .hero .lede { animation-delay: .18s; }
+.anim .hero .actions { animation-delay: .28s; }
+.anim .hero .loc { animation-delay: .38s; }
+.anim .hero-video { animation: fade-in 1.4s ease both; }
+@keyframes fade-in { from { opacity: 0; } }
+.anim .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * 70ms); }
+.anim .reveal.in { opacity: 1; transform: none; }
+.anim .hero-video.reveal { transform: none; }
+main.entering { animation: view-in .5s cubic-bezier(.2, .7, .2, 1) both; }
+.view-fade { position: fixed; inset: 0; z-index: 30; background: var(--bg); pointer-events: none; opacity: 0; transition: opacity .18s ease; }
+.view-fade.on { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-in" viewBox="0 0 16 16"><path fill="currentColor" d="M3.6 5.7h2.1V13H3.6zM4.7 2.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM7.1 5.7h2v1c.3-.6 1.1-1.2 2.2-1.2 2.3 0 2.7 1.5 2.7 3.5V13h-2.1V9.4c0-.9 0-2-1.2-2s-1.4.9-1.4 1.9V13H7.1z"/></symbol>
+  <symbol id="s-tech" viewBox="0 0 24 24"><path d="M14.7 6.3a4.5 4.5 0 0 0-5.9 5.9L3 18l3 3 5.8-5.8a4.5 4.5 0 0 0 5.9-5.9l-2.6 2.6-2.6-.4-.4-2.6z"/></symbol>
+  <symbol id="s-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></symbol>
+  <symbol id="s-thief" viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-8 8c0 2.4 1 4.4 3 5.6V20h10v-3.4c2-1.2 3-3.2 3-5.6a8 8 0 0 0-8-8zM10 20v-2M14 20v-2M11.3 15.3l.7-1.3.7 1.3"/><path fill="currentColor" stroke="none" d="M7.5 11a1.9 1.9 0 1 0 3.8 0 1.9 1.9 0 0 0-3.8 0zM12.7 11a1.9 1.9 0 1 0 3.8 0 1.9 1.9 0 0 0-3.8 0z"/></symbol>
+  <symbol id="s-gameplay" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4v1a4 4 0 0 1-7 2.6L13 15h-2l-1 .6A4 4 0 0 1 3 13v-1a4 4 0 0 1 4-4zM7.5 10.5v3M6 12h3M15.5 11.5h.01M17.5 13.5h.01"/></symbol>
+  <symbol id="s-interaction" viewBox="0 0 24 24"><path d="M5 3l14 7-6.2 1.8L10 18z M13 12.5l5 5"/></symbol>
+  <symbol id="s-interface" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM3 9h18M9 9v11M5.5 6.5h.01M8 6.5h.01"/></symbol>
+  <symbol id="s-coord" viewBox="0 0 24 24"><path d="M12 7.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM5 21.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM19 21.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM10.8 7.2 6.2 16.8M13.2 7.2l4.6 9.6M7.5 19h9"/></symbol>
+  <symbol id="s-pm" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 9.5l1.8 1.8L13.5 7.5M8 15.5h8"/></symbol>
+  <symbol id="s-3c" viewBox="0 0 24 24"><path d="M15 6.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 8.5l-3 4.5M13.5 8.5l3.5 2 2.5-1M13.5 8.5l-4 .3L7 11.5M10.5 13l3.5 2.5-1 5M10.5 13l-2 4-4 1"/></symbol>
+  <symbol id="s-combat" viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/></symbol>
+  <symbol id="s-ai" viewBox="0 0 24 24"><path d="M7 7h10v10H7zM10 10h4v4h-4zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></symbol>
+  <symbol id="s-level" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></symbol>
+  <symbol id="s-puzzle" viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 1 1 4 0v1h4v4h-1a2 2 0 1 0 0 4h1v4H6v-4h1a2 2 0 1 0 0-4H6V6z"/></symbol>
+  <symbol id="s-onboard" viewBox="0 0 24 24"><path d="M5 21V4h12l-2.5 4L17 12H5"/></symbol>
+  <symbol id="s-research" viewBox="0 0 24 24"><path d="M11 17a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM20 20l-4.7-4.7M11 9.5a1.5 1.5 0 1 0 0 .01M8.5 14a2.5 2.5 0 0 1 5 0"/></symbol>
+  <symbol id="s-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 21h8M9.5 17h5l.5 4h-6z"/></symbol>
+  <symbol id="g-fight" viewBox="0 0 24 24"><path d="M7 13V7a1.5 1.5 0 0 1 3 0v3M10 10V5.5a1.5 1.5 0 0 1 3 0V10M13 10V6a1.5 1.5 0 0 1 3 0v4M16 10V7.5a1.5 1.5 0 0 1 3 0V14a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5v-1M7 12.5h5.5a1.5 1.5 0 0 1 0 3H10M9 19v3M16.5 18.5V22"/></symbol>
+  <symbol id="g-detective" viewBox="0 0 24 24"><path d="M3 10.5h18M6 10.5l1.5-5.6c.2-.6.8-.9 1.4-.7L12 5.2l3.1-1c.6-.2 1.2.1 1.4.7l1.5 5.6M8 13.5a4 4 0 0 0 8 0M4.5 21c1-3 4-4.5 7.5-4.5s6.5 1.5 7.5 4.5M10 17l2 2.5 2-2.5"/></symbol>
+  <symbol id="g-craft" viewBox="0 0 24 24"><path d="M4.5 19.5l9.8-9.8M14.5 4.5l5 5-2 2-5-5z"/><g transform="translate(24 0) scale(-1 1)"><path transform="scale(.8) translate(3 3)" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></g></symbol>
+  <symbol id="i-doc" viewBox="0 0 16 16"><path d="M4 2h5l3 3v9H4zM9 2v3h3M6 9h4M6 11.5h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+</svg>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Joss Querné <span>· Designer &amp; Programmer</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a class="opt" href="#plugins">Plugins</a>
+      <a class="opt" href="#writing">Writing</a>
+      <a href="#about">About</a>
+      <a class="cta" href="https://drive.google.com/file/d/13U4YPDBpB9FnabhYDDpit1GEsU02MXlz/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="view-home">
+  <section class="hero" id="top">
+    <video class="hero-video" data-src="media/hero.mp4" poster="media/hero-poster.jpg" muted loop playsinline aria-hidden="true"></video>
+    <div class="wrap">
+      <div>
+        <h1>Joss Querné <span class="role">Designer &amp; Programmer</span></h1>
+        <p class="lede">I design and build <strong>gameplay systems</strong> and <strong>tools</strong>, and coordinate projects so teams can ship them.</p>
+        <div class="actions">
+          <a class="btn primary" href="#work">See case studies</a>
+          <a class="btn" href="https://www.linkedin.com/in/josselin-querne" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-in"/></svg>LinkedIn</a>
+        </div>
+        <p class="loc label">Montreal, QC · Gameplay Systems · Tooling · Project Coordination</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Selected games</h2>
+        <p class="muted">Four productions, from student teams to studio work. Each case study covers the systems, tools and coordination I owned.</p>
+      </div>
+      <div class="projects">
+        <a class="project" href="#overdrive">
+          <div class="thumb"><img src="media/card-overdrive.webp" width="1040" height="626" alt="Overdrive key art: an orc brawler and an elf mage face off in a neon street" loading="lazy" decoding="async"></div>
+          <div class="body">
+            <div class="kind"><span class="badge pro">Professional project</span><span class="label genre-l genre"><svg class="g-ico" aria-hidden="true"><use href="#g-fight"/></svg>1v1 fighting game</span></div>
+            <h3>Overdrive</h3>
+            <p class="muted">An upcoming 1v1 fighting game with a twist, built on the technology behind Checkmate Showdown, with online and offline modes.</p>
+            <p class="spec mono"><span>Since January 2026</span><span>Designer &amp; Programmer</span><span>In development</span></p>
+            <span class="madeat"><span class="label">Made at</span><img src="media/studio-badrez.webp" width="105" height="80" alt="BadRez Games" loading="lazy"></span>
+            <span class="more">Read more <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="project" href="#blue-oath">
+          <div class="thumb"><img src="media/card-blueoath.webp" width="1040" height="626" alt="Blue Oath key art: a swordfish warrior in underwater temple ruins" loading="lazy" decoding="async"><video data-preview="media/bo-preview.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+          <div class="body">
+            <div class="kind"><span class="badge">School project</span><span class="label genre-l genre"><svg class="g-ico" aria-hidden="true"><use href="#s-combat"/></svg>Action-adventure</span></div>
+            <h3>Blue Oath</h3>
+            <span class="award"><svg aria-hidden="true"><use href="#s-trophy"/></svg>Best Student Game · Jury Prize · ISART Digital Montréal</span>
+            <p class="muted">Designed and built the 3Cs of a swordfish who impales and throws enemies. Led design coordination and supported technical work across departments.</p>
+            <p class="spec mono"><span>8 months</span><span>9 people</span><span>Tech design · Project mgmt</span></p>
+            <ul class="pins"><li class="pin ue">Unreal Engine 5</li><li class="pin bp">Blueprints</li><li class="pin cpp">C++</li></ul>
+            <span class="more">Read case study <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="project" href="#eyepiece">
+          <div class="thumb"><img src="media/card-eyepiece.webp" width="1040" height="626" alt="EyePiece: a dim detective's office with the game logo" loading="lazy" decoding="async"><video data-preview="media/ep-preview.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+          <div class="body">
+            <div class="kind"><span class="badge">School project</span><span class="label genre-l genre"><svg class="g-ico" aria-hidden="true"><use href="#g-detective"/></svg>Narrative detective</span></div>
+            <h3>EyePiece</h3>
+            <p class="muted">Built tools that cut iteration time, like a temporality switcher and a Polaroid asset generator. Implemented interaction and item inspection.</p>
+            <p class="spec mono"><span>2.5 months</span><span>12 people</span><span>Tech design · Project mgmt</span></p>
+            <ul class="pins"><li class="pin ue">Unreal Engine 5</li><li class="pin bp">Blueprints</li><li class="pin cpp">C++</li></ul>
+            <span class="more">Read case study <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="project" href="#the-signal">
+          <div class="thumb"><img src="media/card-signal.webp" width="1040" height="626" alt="The Signal: Stranded on Sirenis, a colorful alien landscape" loading="lazy" decoding="async"></div>
+          <div class="body">
+            <div class="kind"><span class="badge pro">Professional project</span><span class="label genre-l genre"><svg class="g-ico" aria-hidden="true"><use href="#g-craft"/></svg>Survival craft</span></div>
+            <h3>The Signal: Stranded on Sirenis</h3>
+            <p class="muted">Structured the full game screen flow and wireframes. Implemented crafting, progression, the world map and the landmark tooling.</p>
+            <p class="spec mono"><span>6-month internship</span><span>12 people</span><span>Tech design · UX</span></p>
+            <ul class="pins"><li class="pin ue">Unreal Engine 5</li><li class="pin bp">Blueprints</li><li class="pin cpp">C++</li></ul>
+            <span class="madeat"><span class="label">Made at</span><img src="media/studio-goosebyte.webp" width="400" height="171" alt="Goose Byte" loading="lazy"></span>
+            <span class="more">Read case study <span class="arr">→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="plugins">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Plugins on Fab</h2>
+        <p class="muted">Unreal Engine plugins I published on the Fab marketplace.</p>
+      </div>
+      <div class="plugins">
+        <article class="plugin">
+          <img src="media/plugin-quickevent.webp" width="1200" height="733" alt="Quick Event System plugin banner" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="label">Tool plugin</span>
+            <h3>Quick Event</h3>
+            <p class="muted">A level scripting system for connecting events to functions visually inside a level. Easy to extend.</p>
+            <ul class="pins"><li class="pin ue">Unreal Engine 5</li><li class="pin bp">Blueprints</li><li class="pin cpp">C++</li></ul>
+            <a class="btn" href="https://www.fab.com/listings/60142c6f-516a-4069-a95e-bc5ccf2f87e6" target="_blank" rel="noopener">View on Fab <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+          </div>
+        </article>
+        <article class="plugin">
+          <img src="media/plugin-baseinteractor.webp" width="1200" height="733" alt="Base Interactor plugin banner" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="label">Content plugin</span>
+            <h3>Base Interactor</h3>
+            <p class="muted">A streamlined interaction system built for flexibility and fast integration. Attach any type of feedback.</p>
+            <ul class="pins"><li class="pin ue">Unreal Engine 5</li><li class="pin bp">Blueprints</li><li class="pin cpp">C++</li></ul>
+            <a class="btn" href="https://www.fab.com/listings/e9654a5f-6626-4b4b-af43-109638ca4883" target="_blank" rel="noopener">View on Fab <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="writing">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Writing</h2>
+        <a class="btn" href="https://medium.com/@josselin.querne" target="_blank" rel="noopener">All articles on Medium <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+      </div>
+      <ul class="articles">
+        <li><a href="https://medium.com/@josselin.querne/a-take-on-game-design-deliverables-2caff85106fb" target="_blank" rel="noopener">A take on game design deliverables <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/game-design-guiding-lights-bda0355b9b2f" target="_blank" rel="noopener">Game design: guiding lights <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/%EF%B8%8Fatomic-game-design-an-overview-9381790951f4" target="_blank" rel="noopener">Atomic game design: an overview <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/give-me-a-flow-application-of-ux-flows-in-game-ux-design-6c6de77c60b8" target="_blank" rel="noopener">Application of UX flows in game UX design <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/an-explanation-of-different-game-design-approaches-12b0937c8ebd" target="_blank" rel="noopener">An explanation of different game design approaches <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/reciprocity-loops-in-games-ddc2e558be2d" target="_blank" rel="noopener">Reciprocity loops in games <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/game-live-ops-and-types-of-users-97517ca7cb2d" target="_blank" rel="noopener">Game live-ops and types of users <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/types-of-gameplay-loops-you-should-know-ec10c73aed62" target="_blank" rel="noopener">Types of gameplay loops you should know <span class="arr">↗</span></a></li>
+        <li><a href="https://medium.com/@josselin.querne/a-playstyle-framework-for-game-designers-fa9607875df8" target="_blank" rel="noopener">A playstyle framework for game designers <span class="arr">↗</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="about">
+        <img class="portrait" src="media/portrait.webp" width="314" height="314" alt="Portrait of Joss Querné" loading="lazy">
+        <div>
+          <h2>About me</h2>
+          <div class="bio" style="margin-top:18px">
+            <p>Hello there! I'm Joss, a Designer &amp; Programmer based in Montreal.</p>
+            <p>Across fighting, action-adventure, narrative detective and survival crafting games, I've learned to adapt quickly to each genre's needs, from peer-to-peer online features to deep interconnected systems.</p>
+            <p class="muted">What I love most about game development is collaborating across disciplines to solve design and technical problems. I like being the bridge between teams, helping ideas move smoothly from concept and planning to implementation.</p>
+          </div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>5</b><span>years of game design studies</span></div>
+        <div class="stat"><b>2</b><span>years working in production</span></div>
+        <div class="stat"><b>10+</b><span>games made at school</span></div>
+        <div class="stat"><b>10</b><span>years programming as a hobby</span></div>
+      </div>
+      <div class="skills">
+        <div>
+          <span class="label">Main specialities</span>
+          <ul class="spec-tiles">
+            <li><svg aria-hidden="true"><use href="#s-code"/></svg>Programming</li>
+            <li><svg aria-hidden="true"><use href="#s-tech"/></svg>Technical design</li>
+            <li><svg aria-hidden="true"><use href="#s-gameplay"/></svg>Gameplay design</li>
+            <li><svg aria-hidden="true"><use href="#s-coord"/></svg>Project coordination</li>
+            <li><svg aria-hidden="true"><use href="#s-interaction"/></svg>UX design</li>
+            <li><svg aria-hidden="true"><use href="#s-interface"/></svg>Interface prototyping</li>
+          </ul>
+        </div>
+        <div>
+          <span class="label">Secondary</span>
+          <ul class="spec-chips">
+            <li><svg aria-hidden="true"><use href="#s-3c"/></svg>3C design</li>
+            <li><svg aria-hidden="true"><use href="#s-combat"/></svg>Combat design</li>
+            <li><svg aria-hidden="true"><use href="#s-thief"/></svg>Enemy design</li>
+            <li><svg aria-hidden="true"><use href="#s-level"/></svg>Level design</li>
+            <li><svg aria-hidden="true"><use href="#s-puzzle"/></svg>Puzzle design</li>
+            <li><svg aria-hidden="true"><use href="#s-onboard"/></svg>Onboarding &amp; tutorials</li>
+            <li><svg aria-hidden="true"><use href="#s-research"/></svg>User research</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Case study: Overdrive -->
+<main id="view-overdrive" class="case" hidden>
+  <div class="wrap">
+    <a class="back" href="#work">← All work</a>
+    <div class="case-head">
+      <div class="kind"><span class="badge pro">Professional project</span><span class="label genre-l" style="color:var(--accent)"><svg class="g-ico" aria-hidden="true"><use href="#g-fight"/></svg>Fighting game · 1v1 · Online &amp; offline</span></div>
+      <h1>Overdrive</h1>
+      <p class="sum">Designer &amp; Programmer on BadRez Games' upcoming fighting game.</p>
+      <span class="madeat"><span class="label">Made at</span><img src="media/studio-badrez.webp" width="105" height="80" alt="BadRez Games" loading="lazy"></span>
+    </div>
+    <div class="cover"><img src="media/cover-overdrive.webp" width="1600" height="900" alt="Overdrive key art: an orc brawler and an elf mage face off in a neon street" loading="lazy" decoding="async"></div>
+    <dl class="specs">
+      <div><dt class="label">Duration</dt><dd>January 2026 – present</dd></div>
+      <div><dt class="label">Studio</dt><dd>BadRez Games</dd></div>
+      <div><dt class="label">Role</dt><dd>Designer &amp; Programmer</dd></div>
+      <div><dt class="label">Status</dt><dd>In development</dd></div>
+    </dl>
+    <div class="case-intro">
+      <div>
+        <span class="label">The game</span>
+        <p style="margin-top:10px">Overdrive is the upcoming 1v1 fighting game from BadRez Games, with a twist. It builds on the technology the studio developed for Checkmate Showdown, and will offer online and offline modes.</p>
+        <p><a href="https://www.badrezgames.com/overdrive" target="_blank" rel="noopener" style="color:var(--accent)">Overdrive on badrezgames.com ↗</a></p>
+      </div>
+    </div>
+    <div class="nda"><span class="pin">NDA</span><p class="muted">This project is under NDA, so I can't share details of my work here yet.</p></div>
+    <nav class="next" aria-label="More projects"><a class="r" href="#blue-oath"><span class="label">Next project</span><b>Blue Oath →</b></a></nav>
+  </div>
+</main>
+
+<!-- Case study: Blue Oath -->
+<main id="view-blue-oath" class="case" hidden>
+  <div class="wrap">
+    <a class="back" href="#work">← All work</a>
+    <div class="case-head">
+      <div class="kind"><span class="badge">School project</span><span class="label genre-l" style="color:var(--accent)"><svg class="g-ico" aria-hidden="true"><use href="#s-combat"/></svg>Action-adventure · 1 player · Unreal</span></div>
+      <h1>Blue Oath</h1>
+      <span class="award"><svg aria-hidden="true"><use href="#s-trophy"/></svg>Best Student Game · Jury Prize · ISART Digital Montréal</span>
+      <p class="sum">Technical Designer responsible for the 3Cs, core gameplay systems, tools and project coordination.</p>
+    </div>
+    <div class="cover"><video data-src="media/bo-trailer.mp4" poster="media/bo-trailer-poster.jpg" muted loop playsinline controls aria-label="Blue Oath gameplay trailer"></video></div>
+    <dl class="specs">
+      <div><dt class="label">Duration</dt><dd>8 months</dd></div>
+      <div><dt class="label">Team</dt><dd>4 designers, 4 artists, 1 sound designer</dd></div>
+      <div><dt class="label">Role</dt><dd>Technical Designer, Project Management</dd></div>
+      <div><dt class="label">Tools</dt><dd>Unreal, Figma, Shortcut</dd></div>
+    </dl>
+    <div class="case-intro">
+      <div>
+        <span class="label">The game</span>
+        <p style="margin-top:10px">Blue Oath is a top-down action-adventure game. You play a warrior swordfish setting out to free a giant cursed moray eel that wanders the ruins of its temple.</p>
+        <p>Powerful dash attacks impale enemies and objects onto your beak. Stack them, then throw them back as weapons or tools.</p>
+      </div>
+      <div class="contrib">
+        <div><h4>Technical design</h4><ul><li>Designed and implemented the 3Cs and core gameplay systems</li><li>Set and maintained technical guidelines and documentation</li><li>Developed procedural animation systems</li><li>Built data-driven systems for fast iteration and tuning</li></ul></div>
+        <div><h4>Game design</h4><ul><li>Designed and balanced combat encounters and arena progression</li><li>Contributed to enemy design, behaviors and tuning</li></ul></div>
+        <div><h4>Project management</h4><ul><li>Coordinated planning and acted as design liaison with the pedagogy team</li><li>Helped with scope planning and production organization</li></ul></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Scripting &amp; design</span>
+      <div class="feature">
+        <div class="txt"><h3>3Cs evolution</h3><p class="muted">I implemented the 3Cs directly in engine. The main challenges were:</p>
+          <blockquote>Balancing aquatic movement with combat responsiveness</blockquote>
+          <blockquote>Making a plane-constrained character feel like a freely swimming fish</blockquote>
+          <blockquote>Creating reusable mechanics that support both combat and puzzles</blockquote></div>
+        <div class="media"><video data-src="media/bo-3c.mp4" poster="media/bo-3c-poster.jpg" muted loop playsinline controls aria-label="Swordfish movement and dash attacks"></video></div>
+      </div>
+      <div class="feature">
+        <div class="txt"><h3>Procedural animation with Control Rig</h3><p class="muted">To support the animation pipeline, I built procedural systems for the swordfish's turning and a spline-based locomotion for the moray. Animators could blend handcrafted animation on top of the procedural motion.</p></div>
+        <div class="media"><video data-src="media/bo-anim.mp4" poster="media/bo-anim-poster.jpg" muted loop playsinline controls aria-label="Procedural moray eel locomotion"></video></div>
+      </div>
+      <div class="feature wide">
+        <div class="txt"><h3>Enemies</h3><p class="muted">Worked with the AI Designer on enemy design: defined gameplay intentions and implemented behaviors. Built a State Tree and Gameplay Ability System architecture to drive them, then iterated on encounter pacing and difficulty from playtest data.</p></div>
+        <div class="gallery">
+          <div class="media"><video data-src="media/bo-enemy.mp4" poster="media/bo-enemy-poster.jpg" muted loop playsinline controls aria-label="Enemy behaviors in combat"></video></div>
+          <div class="pair">
+            <div class="media" style="--r:1.82"><img src="media/bo-statetree.webp" width="1600" height="878" alt="State Tree asset driving enemy behavior in Unreal" loading="lazy" decoding="async"></div>
+            <div class="media white" style="--r:1.5"><img src="media/bo-pacing.webp" width="1400" height="933" alt="Playtest chart of average difficulty by arena and level" loading="lazy" decoding="async"></div>
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="txt"><h3>Game feel</h3><p class="muted">Refined player feedback with procedural animation, controller rumble and camera shake.</p></div>
+        <div class="media"><video data-src="media/bo-feel.mp4" poster="media/bo-feel-poster.jpg" muted loop playsinline controls aria-label="Hit feedback and camera shake"></video></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Tooling</span>
+      <div class="feature">
+        <div class="txt"><h3>Bug reporter</h3><ul class="muted"><li>Engine-integrated bug reporting connected to the team's task tracker</li><li>Captures contextual data straight from the engine</li><li>Sends automated HTTP requests that create tasks and stories</li></ul></div>
+        <div class="media"><video data-src="media/bo-bug.mp4" poster="media/bo-bug-poster.jpg" muted loop playsinline controls aria-label="In-engine bug reporter creating a task"></video></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Project management</span>
+      <p style="max-width:62ch">Owned project planning and scope definition, working with each team member to align goals, constraints and production milestones.</p>
+    </div>
+
+    <nav class="next" aria-label="More projects">
+      <a href="#overdrive"><span class="label">Previous</span><b>← Overdrive</b></a>
+      <a class="r" href="#eyepiece"><span class="label">Next project</span><b>EyePiece →</b></a>
+    </nav>
+  </div>
+</main>
+
+<!-- Case study: EyePiece -->
+<main id="view-eyepiece" class="case" hidden>
+  <div class="wrap">
+    <a class="back" href="#work">← All work</a>
+    <div class="case-head">
+      <div class="kind"><span class="badge">School project</span><span class="label genre-l" style="color:var(--accent)"><svg class="g-ico" aria-hidden="true"><use href="#g-detective"/></svg>Detective · 1 player · Unreal</span></div>
+      <h1>EyePiece</h1>
+      <p class="sum">Technical Designer responsible for core gameplay systems, tools and project coordination.</p>
+    </div>
+    <div class="cover"><video data-src="media/ep-trailer.mp4" poster="media/ep-trailer-poster.jpg" muted loop playsinline controls aria-label="EyePiece gameplay trailer"></video></div>
+    <dl class="specs">
+      <div><dt class="label">Duration</dt><dd>2.5 months</dd></div>
+      <div><dt class="label">Team</dt><dd>5 designers, 7 artists</dd></div>
+      <div><dt class="label">Role</dt><dd>Technical Designer, Project Management</dd></div>
+      <div><dt class="label">Tools</dt><dd>Unreal, Figma, Notion, Rider</dd></div>
+    </dl>
+    <div class="case-intro">
+      <div>
+        <span class="label">The game</span>
+        <p style="margin-top:10px">EyePiece is a single-player narrative detective game. You investigate a murder that hasn't happened yet, exploring different temporalities to discover what happened that day.</p>
+      </div>
+      <div class="contrib">
+        <div><h4>Technical design</h4><ul><li>Built tools and Blueprint templates while overseeing code architecture</li><li>Debugged, profiled and fixed systems</li><li>Implemented interaction, inspection and time-based save systems</li></ul></div>
+        <div><h4>Project management</h4><ul><li>Coordinated planning and communication for the design team</li></ul></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Tooling</span>
+      <div class="feature">
+        <div class="txt"><h3>Temporality switcher</h3><p class="muted">One of the most effective tools on the project. It gave the team:</p>
+          <ul class="muted"><li>An instant preview of every temporal state</li><li>A fast way for designers to validate gameplay flow</li><li>Per-temporality lighting and asset tweaks for artists</li></ul>
+          <p class="muted">It removed guesswork and sped up iteration.</p></div>
+        <div class="media"><video data-src="media/ep-temporal.mp4" poster="media/ep-temporal-poster.jpg" muted loop playsinline controls aria-label="Switching between temporal states in the editor"></video></div>
+      </div>
+      <div class="feature">
+        <div class="txt"><h3>Polaroid creator</h3><p class="muted">Generates every asset used by the teleportation mechanic:</p>
+          <ul class="muted"><li>Creates Polaroid textures from scene captures</li><li>Auto-generates the data assets</li><li>Updates existing photos with no manual setup</li></ul></div>
+        <div class="media"><video data-src="media/ep-polaroid.mp4" poster="media/ep-polaroid-poster.jpg" muted loop playsinline controls aria-label="Polaroid creator tool generating textures"></video></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Gameplay systems · Blueprint &amp; C++</span>
+      <div class="feature">
+        <div class="txt"><h3>Narrative 3Cs</h3><p class="muted">Character, camera and controls tuned for slow, attentive investigation.</p></div>
+        <div class="media"><video data-src="media/ep-3c.mp4" poster="media/ep-3c-poster.jpg" muted loop playsinline controls aria-label="First-person exploration in EyePiece"></video></div>
+      </div>
+      <div class="feature">
+        <div class="txt"><h3>Inspection system</h3><p class="muted">Pick up and examine evidence up close.</p></div>
+        <div class="media"><video data-src="media/ep-inspect.mp4" poster="media/ep-inspect-poster.jpg" muted loop playsinline controls aria-label="Inspecting an item"></video></div>
+      </div>
+      <div class="feature">
+        <div class="txt"><h3>Interaction &amp; inventory</h3><p class="muted">A shared interaction layer feeding the player's inventory.</p></div>
+        <div class="media"><video data-src="media/ep-interact.mp4" poster="media/ep-interact-poster.jpg" muted loop playsinline controls aria-label="Interacting with objects and the inventory"></video></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Project management</span>
+      <p style="max-width:62ch">Wrote design proposals and planning docs in pre-production, and helped present the final project at the showcase.</p>
+    </div>
+
+    <nav class="next" aria-label="More projects">
+      <a href="#blue-oath"><span class="label">Previous</span><b>← Blue Oath</b></a>
+      <a class="r" href="#the-signal"><span class="label">Next project</span><b>The Signal →</b></a>
+    </nav>
+  </div>
+</main>
+
+<!-- Case study: The Signal -->
+<main id="view-the-signal" class="case" hidden>
+  <div class="wrap">
+    <a class="back" href="#work">← All work</a>
+    <div class="case-head">
+      <div class="kind"><span class="badge pro">Professional project</span><span class="label genre-l" style="color:var(--accent)"><svg class="g-ico" aria-hidden="true"><use href="#g-craft"/></svg>Survival craft · 1 player · Unreal</span></div>
+      <h1>The Signal: Stranded on Sirenis</h1>
+      <p class="sum">Technical Designer responsible for crafting systems, UI and tools.</p>
+      <span class="madeat"><span class="label">Made at</span><img src="media/studio-goosebyte.webp" width="400" height="171" alt="Goose Byte" loading="lazy"></span>
+    </div>
+    <div class="cover"><video data-src="media/signal-video.mp4" poster="media/signal-video-poster.jpg" muted loop playsinline controls aria-label="The Signal: Stranded on Sirenis pre-alpha gameplay"></video></div>
+    <dl class="specs">
+      <div><dt class="label">Duration</dt><dd>6-month internship</dd></div>
+      <div><dt class="label">Team</dt><dd>12 people</dd></div>
+      <div><dt class="label">Role</dt><dd>Technical Designer</dd></div>
+      <div><dt class="label">Tools</dt><dd>Unreal, Rider, Figma, Jira, Confluence</dd></div>
+    </dl>
+    <div class="case-intro">
+      <div>
+        <span class="label">The game</span>
+        <p style="margin-top:10px">A single-player survival craft game set on an alien planet that has ensnared you. Scavenge, build, extract and survive a complex world while you uncover the true intentions of this sentient planet, and why it brought you here.</p>
+      </div>
+      <div class="contrib">
+        <div><h4>Technical design</h4><ul><li>Landmark system, plus a tool to create landmarks and world map textures</li><li>Compass, world map, research station, crafting station and main menu</li><li>General bug fixing</li></ul></div>
+        <div><h4>UX design</h4><ul><li>Planned the game's screen flow</li><li>Wireframed every screen and menu</li></ul></div>
+      </div>
+    </div>
+    <div class="nda"><span class="pin">NDA</span><p class="muted">This project is under NDA, so I can't share production content here.</p></div>
+    <nav class="next" aria-label="More projects">
+      <a href="#eyepiece"><span class="label">Previous</span><b>← EyePiece</b></a>
+      <a class="r" href="#plugins"><span class="label">Next</span><b>My Fab plugins →</b></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="contact">
+  <div class="wrap">
+    <span class="label">Contact</span>
+    <h2 style="margin-top:12px">Looking for a versatile developer?</h2>
+    <div class="actions">
+      <a class="btn primary" href="https://www.linkedin.com/in/josselin-querne" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-in"/></svg>Message me on LinkedIn</a>
+      <a class="btn" href="https://drive.google.com/file/d/13U4YPDBpB9FnabhYDDpit1GEsU02MXlz/view?usp=sharing" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-doc"/></svg>Resume</a>
+      <a class="btn" href="https://medium.com/@josselin.querne" target="_blank" rel="noopener">Medium <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+    </div>
+    <div class="foot mono muted"><span>© 2026 Joss Querné</span><span>Montreal, QC</span></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const cases = ["overdrive", "blue-oath", "eyepiece", "the-signal"];
+  const views = { home: document.getElementById("view-home") };
+  cases.forEach(c => views[c] = document.getElementById("view-" + c));
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Videos load only when near the screen and pause when off it.
+  // Phones get light 720p versions (-m.mp4); with data saver on, nothing autoplays
+  // and a video downloads only when the visitor presses play.
+  const small = matchMedia("(max-width: 760px)").matches;
+  const saveData = !!navigator.connection?.saveData;
+  const manual = reduce || saveData;
+  const srcFor = v => (small || saveData) ? v.dataset.src.replace(/\.mp4$/, "-m.mp4") : v.dataset.src;
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (!v.src && v.dataset.src) { v.preload = manual ? "none" : "auto"; v.src = srcFor(v); }
+        if (!manual) v.play().catch(() => {});
+      } else if (!v.paused) v.pause();
+    }
+  }, { rootMargin: "200px 0px" });
+  document.querySelectorAll("video[data-src]").forEach(v => {
+    if (manual && !v.classList.contains("hero-video")) v.controls = true;
+    io.observe(v);
+  });
+
+  // Project cards play a short gameplay clip on hover or keyboard focus.
+  if (!reduce && matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll(".project").forEach(card => {
+      const v = card.querySelector("video[data-preview]");
+      if (!v) return;
+      const start = () => {
+        if (!v.src) v.src = v.dataset.preview;
+        v.play().then(() => v.classList.add("on")).catch(() => {});
+      };
+      const stop = () => { v.classList.remove("on"); v.pause(); };
+      card.addEventListener("pointerenter", start);
+      card.addEventListener("pointerleave", stop);
+      card.addEventListener("focus", start);
+      card.addEventListener("blur", stop);
+    });
+  }
+
+  // One-time reveal as sections scroll into view; siblings stagger slightly.
+  const revealSel = [
+    ".sec-head", ".project", ".plugin", ".articles li", ".about", ".stat", ".spec-tiles li", ".spec-chips li",
+    ".contact h2", ".contact .actions", ".cover", ".specs", ".case-intro", ".feature", ".group > .label",
+    ".group > p", ".nda", ".next"
+  ].join(",");
+  if (!reduce && "IntersectionObserver" in window) {
+    const els = document.querySelectorAll(revealSel);
+    els.forEach(el => {
+      el.classList.add("reveal");
+      const sibs = [...el.parentElement.children].filter(c => c.matches(revealSel));
+      el.style.setProperty("--i", Math.min(sibs.indexOf(el), 8));
+    });
+    const ro = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); }
+    }, { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(el => ro.observe(el));
+    document.documentElement.classList.add("anim");
+  }
+
+  // Case study images open full size; click, Esc or the close button dismisses.
+  const lb = document.createElement("div");
+  lb.className = "lightbox"; lb.hidden = true;
+  lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Enlarged image");
+  lb.innerHTML = '<img alt=""><button type="button" aria-label="Close">×</button>';
+  document.body.appendChild(lb);
+  const lbImg = lb.querySelector("img");
+  let lastFocus = null;
+  const closeLb = () => {
+    lb.classList.remove("open");
+    setTimeout(() => { lb.hidden = true; lbImg.removeAttribute("src"); }, 200);
+    document.documentElement.style.overflow = "";
+    lastFocus?.focus();
+  };
+  document.querySelectorAll(".case .media img, .case .cover img").forEach(img => {
+    img.tabIndex = 0;
+    img.setAttribute("role", "button");
+    const open = () => {
+      lastFocus = img;
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt;
+      lbImg.classList.toggle("dark", !img.closest(".media.white"));
+      lb.hidden = false;
+      document.documentElement.style.overflow = "hidden";
+      requestAnimationFrame(() => lb.classList.add("open"));
+      lb.querySelector("button").focus();
+    };
+    img.addEventListener("click", open);
+    img.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
+  lb.addEventListener("click", closeLb);
+  addEventListener("keydown", e => { if (e.key === "Escape" && !lb.hidden) closeLb(); });
+
+  // Page change: a quick fade covers the swap, then the new view rises in.
+  const fade = document.createElement("div");
+  fade.className = "view-fade";
+  document.body.appendChild(fade);
+  let current = null;
+
+  function route() {
+    const h = decodeURIComponent(location.hash.slice(1));
+    const isCase = cases.includes(h);
+    const next = isCase ? h : "home";
+    if (current && current !== next && !reduce) {
+      fade.classList.add("on");
+      setTimeout(() => { show(next, h, isCase); fade.classList.remove("on"); }, 180);
+    } else show(next, h, isCase);
+  }
+
+  function show(next, h, isCase) {
+    const changed = current !== next;
+    current = next;
+    for (const [k, el] of Object.entries(views)) el.hidden = k !== next;
+    if (changed && !reduce) {
+      const v = views[next];
+      v.classList.remove("entering"); void v.offsetWidth; v.classList.add("entering");
+    }
+    // Jump instantly when the view changed (the fade hides it); scroll smoothly within the same view.
+    const behavior = changed ? "instant" : "smooth";
+    if (isCase) { window.scrollTo({ top: 0, behavior }); document.title = views[h].querySelector("h1").textContent + " · Joss Querné"; }
+    else {
+      document.title = "Joss Querné · Designer & Programmer";
+      const t = h && document.getElementById(h);
+      if (t) requestAnimationFrame(() => t.scrollIntoView({ behavior }));
+    }
+  }
+  addEventListener("hashchange", route);
+  route();
+})();
+</script>
+
+</body>
+</html>
